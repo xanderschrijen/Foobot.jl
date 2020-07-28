@@ -20,6 +20,8 @@ my_devices=devices("my@foobot.email")
 happybot = finddevice("HappyBot", my_devices)
 
 # hourly data for the last week
+using Dates
+
 data = datapoints(happybot, Dates.now()-Day(7), Dates.now(), 60*60)
 
 # plot

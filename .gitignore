@@ -1,2 +1,2 @@
 *.csv
-*.key
+/Manifest.toml

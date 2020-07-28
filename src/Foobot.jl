@@ -2,7 +2,7 @@
 # `include` the file.
 # API documentation: http://api.foobot.io/apidoc/index.html
 
-using HTTP, JSON, Dates, TimeZones
+using HTTP, JSON, Dates, TimeZones, Plots
 
 const base_url = "https://api.foobot.io"
 const all_sensors = ["time", "tmp", "hum", "pm", "voc", "co2", "allpollu"]
@@ -59,3 +59,9 @@ function apikey()
     return String(read(open(homedir()*"/.foobotapi.key", "r")))
 end
 
+function plot_foobot(json)
+    x = [unix2datetime(t[1]) for t in json["datapoints"]]
+    ys = [[t[sensor] for t in json["datapoints"]] for sensor in 2:length(json["sensors"])]
+    labels = [s for s in json["sensors"][2:end]]
+    plot(x, ys, labels=reshape(labels, (1,length(labels))))
+end

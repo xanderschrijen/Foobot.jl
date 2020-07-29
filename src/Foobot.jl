@@ -78,11 +78,13 @@ function apikey()
     return String(read(open(homedir()*"/.foobotapi.key", "r")))
 end
 
-function plot(json)
+function plot(json, size=(600,800))
     x = [unix2datetime(t[1]) for t in json["datapoints"]]
-    ys = [[t[sensor] for t in json["datapoints"]] for sensor in 2:length(json["sensors"])]
-    labels = [s for s in json["sensors"][2:end]]
-    Plots.plot(x, ys, labels=reshape(labels, (1,length(labels))))
+    n_sensors = length(json["sensors"]) - 1
+    ys = [[t[sensor] for t in json["datapoints"]] for sensor in 2:n_sensors+1]
+    units = reshape([s for s in json["units"][2:end]], (1, n_sensors))
+    sensors = reshape([s for s in json["sensors"][2:end]], (1, n_sensors))
+    Plots.plot(x, ys, label=units, title=sensors, layout=(n_sensors,1), size=size)
 end
 
 end

@@ -25,6 +25,5 @@ using Dates
 data = datapoints(happybot, Dates.now()-Day(7), Dates.now(), 60*60)
 
 # plot
-# I want multiple stacked plots here as the scales for all sensors are different
 Foobot.plot(data)
 ```
